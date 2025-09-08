@@ -8,10 +8,7 @@
 
 /* Includes ****************************************************************/
 #include "BOS.h"
-#include "mb.h"
-#include "mb_API.h"
-#include "port.h"
-#include "mb_slave_API.h"
+
 /* Private variables *******************************************************/
 
 /* Private Function Prototypes *********************************************/
@@ -26,21 +23,25 @@ int main(void) {
 	for (;;) {
 	}
 }
-/***************************************************************************/
 
-uint16_t qq[10]={0x44,0x55,0x55,0x55 ,0x00 ,0xff ,0x55,0x22} ;
-uint16_t ss[10];
-Module_Status s ;
+
+
+/***************************************************************************/
+#define STARTING_ADDRESS     0
+#define NUMBER_OF_REGISTERS  10
+uint16_t Slave_Receive_buffer[10];
+uint16_t Slave_Transmit_buffer[10] = { 4, 3, 2, 1, 0, 4, 3, 2, 1, 0 };
+Module_Status Slave_Rstatus, Slave_wstatus;
 void UserTask(void const *argument) {
 
-	 /* USER CODE BEGIN 2 */
-	ModbusSlaveInit(MB_SLAVE_ADDRESS);
-	  /* USER CODE END 2 */
+	/* USER CODE BEGIN 2 */
+	ModbusSlaveInit(2);
+	/* USER CODE END 2 */
 
 	/* Infinite loop */
 	for (;;) {
-
-		ReadFromModbusBuffer(ss, 0, 10);
+		Delay_ms(500);
+		Slave_Rstatus = ReadFromModbusBuffer(Slave_Receive_buffer, STARTING_ADDRESS, NUMBER_OF_REGISTERS);
 	}
 	/* USER CODE END StartDefaultTask */
 }
