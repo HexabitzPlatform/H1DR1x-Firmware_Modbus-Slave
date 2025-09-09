@@ -35,13 +35,13 @@ Module_Status Slave_Rstatus, Slave_wstatus;
 void UserTask(void const *argument) {
 
 	/* USER CODE BEGIN 2 */
-	ModbusSlaveInit(2);
+//	ModbusSlaveInit(2);
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
 	for (;;) {
-		Delay_ms(500);
-		Slave_Rstatus = ReadFromModbusBuffer(Slave_Receive_buffer, STARTING_ADDRESS, NUMBER_OF_REGISTERS);
+//		Delay_ms(500);
+//		Slave_Rstatus = ReadFromModbusBuffer(Slave_Receive_buffer, STARTING_ADDRESS, NUMBER_OF_REGISTERS);
 	}
 	/* USER CODE END StartDefaultTask */
 }

@@ -29,6 +29,35 @@ TIM_HandleTypeDef htim7;
 /***************************************************************************/
 /* Configure Timers ********************************************************/
 /***************************************************************************/
+/* TIM14 init function */
+void MX_TIM14_Init(void)
+ {
+	htim14.Instance = TIM14;
+	htim14.Init.Prescaler = 2399;
+	htim14.Init.CounterMode = TIM_COUNTERMODE_UP;
+	htim14.Init.Period = 0;
+	htim14.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+	htim14.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+	HAL_TIM_Base_Init(&htim14);
+}
+/* TIM7 init function */
+void MX_TIM7_Init(void)
+ {
+	TIM_MasterConfigTypeDef sMasterConfig = { 0 };
+	htim7.Instance = TIM7;
+	htim7.Init.Prescaler = 47;
+	htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
+	htim7.Init.Period = 1999;
+	htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+	HAL_TIM_Base_Init(&htim7);
+	sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+	sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+	HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig);
+	LL_TIM_EnableIT_UPDATE(TIM7);
+	LL_TIM_EnableCounter(TIM7);
+
+}
+
 /* IWDG init function */
 void MX_IWDG_Init(void) {
 
@@ -85,58 +114,6 @@ void TIM_MSEC_Init(void) {
 }
 
 
-/* TIM14 init function */
-void MX_TIM14_Init(void)
- {
-
-	/* USER CODE BEGIN TIM14_Init 0 */
-
-	/* USER CODE END TIM14_Init 0 */
-
-	/* USER CODE BEGIN TIM14_Init 1 */
-
-	/* USER CODE END TIM14_Init 1 */
-	htim14.Instance = TIM14;
-	htim14.Init.Prescaler = 2399;
-	htim14.Init.CounterMode = TIM_COUNTERMODE_UP;
-	htim14.Init.Period = 0;
-	htim14.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-	htim14.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-	HAL_TIM_Base_Init(&htim14);
-	/* USER CODE BEGIN TIM14_Init 2 */
-
-	/* USER CODE END TIM14_Init 2 */
-
-}
-
-/* TIM7 init function */
-void MX_TIM7_Init(void)
- {
-
-	/* USER CODE BEGIN TIM7_Init 0 */
-
-	/* USER CODE END TIM7_Init 0 */
-
-	TIM_MasterConfigTypeDef sMasterConfig = { 0 };
-
-	/* USER CODE BEGIN TIM7_Init 1 */
-
-	/* USER CODE END TIM7_Init 1 */
-	htim7.Instance = TIM7;
-	htim7.Init.Prescaler = 47;
-	htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-	htim7.Init.Period = 1999;
-	htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-	HAL_TIM_Base_Init(&htim7);
-	sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-	sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-	HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig);
-	/* USER CODE BEGIN TIM7_Init 2 */
-	LL_TIM_EnableIT_UPDATE(TIM7);
-	LL_TIM_EnableCounter(TIM7);
-	/* USER CODE END TIM7_Init 2 */
-
-}
 /***************************************************************************/
 /* Load and start micro-second delay counter */
 void StartMicroDelay(uint16_t Delay) {

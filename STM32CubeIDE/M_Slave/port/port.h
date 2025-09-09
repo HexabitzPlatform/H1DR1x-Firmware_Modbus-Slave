@@ -49,9 +49,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include <assert.h>
-
-
 #include "H1DR1.h"
+#include "H1DR1_uart.h"
+
 #define bool	_Bool
 #define true	1
 #define false	0
@@ -63,7 +63,6 @@ typedef uint16_t USHORT;
 typedef int16_t SHORT;
 typedef uint32_t ULONG;
 typedef int32_t LONG;
-
 /* Exported macro ------------------------------------------------------------*/
 #define ENTER_CRITICAL_SECTION() ( __disable_irq())
 #define EXIT_CRITICAL_SECTION() ( __enable_irq())
@@ -76,7 +75,7 @@ typedef int32_t LONG;
 
 #define TIM_TIMEOUT TIM14
 #define SERIAL_PORT USART3
-#define MB_UART_INIT_FN()   MX_USART3_UART_Init()
+#define MB_UART_INIT_FN()   UARTInitModbus()
 #endif /* __PORT_H */
 
 /************************ (C) COPYRIGHT 2019 STMicroelectronics *****END OF FILE****/

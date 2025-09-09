@@ -2,13 +2,12 @@
  BitzOS (BOS) V0.4.0 - Copyright (C) 2017-2025 Hexabitz
  All rights reserved
 
- File Name  : H1DR1.c
- Description: Core source for H1DR1 module, managing RGB LED control.
- Features: CLI commands for LED on/off, color, RGB, toggle, pulse, sweep, dim.
- Peripherals: UART1-6, TIM2-4 (PWM for RGB), low-power modes (stop/standby).
- Flash: Stores topology and command snippets in RO sections.
- Tasks: RGBledTask handles dynamic LED effects (pulse, sweep, dim).
- */
+ File Name  : H1DR1_system.c
+ Description: Manages system configuration and communication for H1DR1 module.
+ Module_Peripheral_Init: Initializes UART1-6, DMA1, and GPIO ports A-B.
+ Modbus: Supports RTU and ASCII communication with register read/write operations.
+ Functions: Modbus communication.
+*/
 /* Includes ****************************************************************/
 #include "BOS.h"
 #include "mb.h"
@@ -34,11 +33,9 @@ void SetupPortForRemoteBootloaderUpdate(uint8_t port);
 void remoteBootloaderUpdate(uint8_t src,uint8_t dst,uint8_t inport,uint8_t outport);
 uint8_t ClearROtopology(void);
 Module_Status Module_MessagingTask(uint16_t code, uint8_t port, uint8_t src, uint8_t dst, uint8_t shift);
-void MessagingTask(void const *argument);
+/* Local Function Prototypes ***********************************************/
 void MX_TIM7_Init(void);
 void MX_TIM14_Init(void);
-/* Local Function Prototypes ***********************************************/
-
 /* Create CLI commands *****************************************************/
 
 /* CLI command structure ***************************************************/
@@ -436,16 +433,6 @@ void SetupPortForRemoteBootloaderUpdate(uint8_t port){
 	__HAL_UART_ENABLE_IT(huart,UART_IT_RXNE);
 
 }
-/*
- * @brief: Task for handling messaging.
- * @param: argument - pointer to the task argument.
- * @retval: None
- */
-void MessagingTask(void const *argument) {
-
-	vTaskDelete(NULL);
-}
-
 /***************************************************************************/
 /* H1DR1 module initialization */
 void Module_Peripheral_Init(void) {
@@ -577,6 +564,7 @@ Module_Status ModbusSlaveInit(uint8_t slaveAddress) {
  * @param numRegisters: Number of registers to write.
  * @retval: Module status indicating success or error.
  */
+/* This function writes to the buffer that the master will read from. */
 Module_Status WriteToModbusBuffer(uint16_t *buffer, uint16_t regAddress, uint16_t numRegisters) {
     Module_Status status = H1DR1_OK;
     if (buffer == NULL || numRegisters == 0) {
@@ -593,6 +581,7 @@ Module_Status WriteToModbusBuffer(uint16_t *buffer, uint16_t regAddress, uint16_
  * @param numRegisters: Number of registers to read.
  * @retval: Module status indicating success or error.
  */
+/* This function reads from the buffer that the master has written to. */
 Module_Status ReadFromModbusBuffer(uint16_t *buffer, uint16_t regAddress, uint16_t numRegisters) {
     Module_Status status = H1DR1_OK;
     if (buffer == NULL || numRegisters == 0) {

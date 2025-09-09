@@ -1,15 +1,11 @@
-/*
- BitzOS (BOS) V0.4.0 - Copyright (C) 2017-2025 Hexabitz
- All rights reserved
+/* BitzOS (BOS) V0.4.0 - Copyright (C) 2017-2025 Hexabitz All rights reserved
 
- File Name  : H1DR1.h
- Description: Header for H1DR1 module, defining hardware and software interfaces.
- Module: RGB LED control with UART communication.
- Ports: 6 UART ports (USART1-6) mapped to P1-P6.
- Timers: TIM2-4 for RGB PWM (red, green, blue).
- LED: Indicator LED on GPIOB14.
- Enums: Basic colors, RGB LED modes (pulse, sweep, dim).
- Status: Module-specific error codes.
+ File Name : H1DR1.h
+ Description: Defines interfaces and configurations for H1DR1 module.
+ Ports: Configures 5 UART ports (P1-P5) with P2 for ST bootloader update.
+ UART: Initializes USART1-2, USART4-6 with GPIO pin mappings.
+ Modbus: Supports slave initialization and buffer read/write operations.
+ Functions: Modbus communication.
  */
 
 /* Define to prevent recursive inclusion ***********************************/
@@ -38,12 +34,11 @@
 #define _P3
 #define _P4
 #define _P5
-//#define _P6
+
 
 /* Define Available USARTs */
 #define _USART1
 #define _USART2
-//#define _USART3
 #define _USART4
 #define _USART5
 #define _USART6
@@ -54,7 +49,6 @@
 #define UART_P3 &huart6
 #define UART_P4 &huart1
 #define UART_P5 &huart5
-//#define UART_P6 &huart3
 
 /* Module-specific Hardware Definitions ************************************/
 /* Port Definitions */
@@ -120,7 +114,6 @@ extern UART_HandleTypeDef huart6;
 /* Define UART Init prototypes */
 extern void MX_USART1_UART_Init(void);
 extern void MX_USART2_UART_Init(void);
-extern void MX_USART3_UART_Init(void);
 extern void MX_USART4_UART_Init(void);
 extern void MX_USART5_UART_Init(void);
 extern void MX_USART6_UART_Init(void);
@@ -133,6 +126,6 @@ Module_Status ModbusSlaveInit(uint8_t slaveAddress);
 Module_Status ReadFromModbusBuffer(uint16_t *buffer, uint16_t regAddress, uint16_t numRegisters);
 Module_Status WriteToModbusBuffer(uint16_t *buffer, uint16_t regAddress, uint16_t numRegisters);
 
-#endif /* H01R0_H */
+#endif /* H1DR1_H */
 
 /***************** (C) COPYRIGHT HEXABITZ ***** END OF FILE ****************/
