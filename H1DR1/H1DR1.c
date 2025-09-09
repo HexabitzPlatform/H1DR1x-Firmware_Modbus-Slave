@@ -537,13 +537,10 @@ Module_Status GetModuleParameter(uint8_t paramIndex, float *value) {
 /***************************************************************************/
 /*
  * @brief: Initializes the Modbus slave mode with specified parameters.
- * @param eMode: The mode of operation (e.g., RTU, ASCII).
  * @param slaveAddress: The address of the slave device.
- * @param port: The communication port to be used.
- * @param baudRate: The baud rate for communication.
- * @param parity: The parity setting (e.g., none, even, odd).
  * @retval: Module status indicating success or error.
  */
+/*Initializes Modbus slave mode with a specified slave address, defaulting to RTU mode, predefined baud rate,and returning the operation status.*/
 Module_Status ModbusSlaveInit(uint8_t slaveAddress) {
 	Module_Status status = H1DR1_OK;
 	eMBMode eMode = MB_RTU;

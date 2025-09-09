@@ -40,8 +40,9 @@ void UserTask(void const *argument) {
 
 	/* Infinite loop */
 	for (;;) {
+		WriteToModbusBuffer(Slave_Transmit_buffer, 0, 10);
 //		Delay_ms(500);
-//		Slave_Rstatus = ReadFromModbusBuffer(Slave_Receive_buffer, STARTING_ADDRESS, NUMBER_OF_REGISTERS);
+		Slave_Rstatus = ReadFromModbusBuffer(Slave_Receive_buffer, STARTING_ADDRESS, NUMBER_OF_REGISTERS);
 	}
 	/* USER CODE END StartDefaultTask */
 }
